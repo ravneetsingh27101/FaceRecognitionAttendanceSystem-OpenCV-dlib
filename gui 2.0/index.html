@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Recognition Attendance System</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Navigation -->
+      <nav class="navbar">
+        <!-- Home Button - Left Side -->
+        <button class="nav-home-btn" data-page="home">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </button>
+
+        <div class="nav-center">
+          <div class="nav-brand">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Face Recognition Attendance System</span>
+          </div>
+          <div class="nav-links">
+            <button class="nav-link" data-page="register">
+              <i class="fas fa-user-plus"></i> Register
+            </button>
+            <button class="nav-link" data-page="mark">
+              <i class="fas fa-camera"></i> Mark
+            </button>
+            <button class="nav-link" data-page="check">
+              <i class="fas fa-chart-line"></i> Records
+            </button>
+            <button class="nav-link" data-page="admin">
+              <i class="fas fa-user-shield"></i> Admin
+            </button>
+          </div>
+        </div>
+
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <!-- Back Button - Right Side -->
+          <button class="nav-back-btn" id="backBtn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+          <div class="hero-section">
+            <div class="hero-content">
+              <h1 class="hero-title">
+                <span class="title-main">Face Recognition</span>
+                <span class="title-sub">Attendance System</span>
+              </h1>
+              <p class="hero-description">
+                Modern, efficient attendance management with AI-powered
+                recognition
+              </p>
+              <div class="hero-stats">
+                <div class="stat-card">
+                  <div class="stat-number" id="heroTotalStudents">0</div>
+                  <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-number" id="heroAttendanceRate">0%</div>
+                  <div class="stat-label">Attendance Rate</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-number" id="heroPresentToday">0</div>
+                  <div class="stat-label">Present Today</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="navigation-cards">
+            <div class="nav-card" data-page="register">
+              <div class="card-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <h3>Register Student</h3>
+              <p>Add new students to the system with photo capture</p>
+              <div class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </div>
+
+            <div class="nav-card" data-page="mark">
+              <div class="card-icon">
+                <i class="fas fa-camera"></i>
+              </div>
+              <h3>Mark Attendance</h3>
+              <p>Capture photos and mark student attendance status</p>
+              <div class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </div>
+
+            <div class="nav-card" data-page="check">
+              <div class="card-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <h3>Check Records</h3>
+              <p>View and analyze attendance data with interactive charts</p>
+              <div class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page">
+          <div class="page-header">
+            <h2>Register New Student</h2>
+            <p>Add a new student to the attendance system</p>
+          </div>
+
+          <div class="register-container">
+            <form class="register-form" id="registerForm">
+              <div class="form-group">
+                <div class="floating-input">
+                  <input type="text" id="studentName" name="name" required />
+                  <label for="studentName">Full Name</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="floating-input">
+                  <input type="text" id="studentId" name="id" required />
+                  <label for="studentId">Student ID</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="floating-input">
+                  <select id="studentClass" name="class" required>
+                    <option value=""></option>
+                    <option value="CS101">
+                      CS101 - Introduction to Computer Science
+                    </option>
+                    <option value="CS102">
+                      CS102 - Data Structures and Algorithms
+                    </option>
+                    <option value="CS103">CS103 - Web Development</option>
+                  </select>
+                  <label for="studentClass">Class</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="floating-input">
+                  <input type="email" id="studentEmail" name="email" required />
+                  <label for="studentEmail">Email Address</label>
+                </div>
+              </div>
+
+              <div class="photo-capture-section">
+                <h3>Student Photo Training (50 Images Required)</h3>
+                <div class="training-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="trainingProgress" style="width: 0%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span id="capturedCount">0</span> / 50 images captured
+                  </div>
+                </div>
+                
+                <div class="photo-preview" id="photoPreview">
+                  <video id="trainingVideo" autoplay playsinline muted style="display: none"></video>
+                  <div class="photo-placeholder">
+                    <i class="fas fa-camera"></i>
+                    <p>Start camera to begin training</p>
+                  </div>
+                </div>
+                
+                <div class="photo-controls">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="startTrainingBtn"
+                  >
+                    <i class="fas fa-video"></i> Start Camera
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="manualCaptureBtn"
+                    disabled
+                  >
+                    <i class="fas fa-camera"></i> Manual Capture
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline"
+                    id="stopTrainingBtn"
+                    style="display: none"
+                  >
+                    <i class="fas fa-stop"></i> Stop Training
+                  </button>
+                </div>
+                
+                <div class="training-instructions">
+                  <p><strong>Instructions:</strong></p>
+                  <ul>
+                    <li>Position yourself in good lighting</li>
+                    <li>Look directly at the camera</li>
+                    <li>Click "Manual Capture" 50 times</li>
+                    <li>Vary your expression and angle slightly</li>
+                  </ul>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-large">
+                <i class="fas fa-user-plus"></i>
+                Register Student
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Admin Page -->
+        <div id="admin-page" class="page">
+          <div class="page-header">
+            <h2>Admin Panel</h2>
+            <p>System administration and management</p>
+          </div>
+          
+          <!-- Admin Login Section -->
+          <div id="adminLoginSection" class="register-container">
+            <form class="register-form" id="adminLoginForm">
+              <h3>Admin Login</h3>
+              <div class="form-group">
+                <div class="floating-input">
+                  <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder=" "
+                    required
+                  />
+                  <label for="adminEmail">Email</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="floating-input">
+                  <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder=" "
+                    required
+                  />
+                  <label for="adminPassword">Password</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-large">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+              </button>
+              <div
+                id="adminStatus"
+                class="form-group"
+                style="color: var(--text-secondary)"
+              ></div>
+            </form>
+          </div>
+          
+          <!-- Admin Dashboard Section -->
+          <div id="adminDashboardSection" class="admin-dashboard" style="display: none;">
+            <div class="admin-welcome">
+              <h3>Welcome, Admin!</h3>
+              <button class="btn btn-outline" id="adminLogoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </button>
+            </div>
+            
+            <!-- Danger Zone -->
+            <div class="danger-zone">
+              <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+              <p class="danger-warning">These actions are irreversible. Use with extreme caution.</p>
+              
+              <div class="danger-actions">
+                <div class="danger-action">
+                  <div class="danger-info">
+                    <h4>Reset Database</h4>
+                    <p>Delete all data including students, attendance records, and trained models</p>
+                  </div>
+                  <button class="btn btn-danger" id="resetDatabaseBtn">
+                    <i class="fas fa-database"></i>
+                    Reset Database
+                  </button>
+                </div>
+                
+                <div class="danger-action">
+                  <div class="danger-info">
+                    <h4>Delete All Enrolled Faces</h4>
+                    <p>Remove all face training data and retrain models</p>
+                  </div>
+                  <button class="btn btn-danger" id="deleteFacesBtn">
+                    <i class="fas fa-user-times"></i>
+                    Delete All Faces
+                  </button>
+                </div>
+                
+                <div class="danger-action">
+                  <div class="danger-info">
+                    <h4>Delete Attendance Records</h4>
+                    <p>Remove all attendance logs while keeping student data</p>
+                  </div>
+                  <button class="btn btn-danger" id="deleteAttendanceBtn">
+                    <i class="fas fa-calendar-times"></i>
+                    Delete Records
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mark Attendance Page -->
+        <div id="mark-page" class="page">
+          <div class="page-header">
+            <h2>Mark Attendance</h2>
+            <p>Capture student photo and mark attendance status</p>
+            <div class="current-time" id="currentTime"></div>
+          </div>
+
+          <div class="attendance-container">
+            <div class="attendance-form">
+              <div class="form-group">
+                <div class="floating-input">
+                  <select id="attendanceStudent" name="student" required>
+                    <option value=""></option>
+                    <option value="STU001">
+                      Alice Johnson (STU001) - CS101
+                    </option>
+                    <option value="STU002">Bob Smith (STU002) - CS101</option>
+                    <option value="STU003">
+                      Carol Williams (STU003) - CS102
+                    </option>
+                    <option value="STU004">David Brown (STU004) - CS101</option>
+                    <option value="STU005">Emma Davis (STU005) - CS102</option>
+                  </select>
+                  <label for="attendanceStudent">Select Student</label>
+                </div>
+              </div>
+
+              <div class="camera-section">
+                <div class="camera-preview" id="cameraPreview">
+                  <video id="cameraVideo" autoplay></video>
+                  <canvas id="cameraCanvas" style="display: none"></canvas>
+                  <div class="camera-placeholder">
+                    <i class="fas fa-video"></i>
+                    <p>Camera preview will appear here</p>
+                    <button class="btn btn-primary" id="startCameraBtn">
+                      <i class="fas fa-camera"></i> Start Camera
+                    </button>
+                  </div>
+                </div>
+
+                <div class="camera-controls">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="captureBtn"
+                    disabled
+                  >
+                    <i class="fas fa-camera"></i> Capture
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline"
+                    id="retakeBtn"
+                    style="display: none"
+                  >
+                    <i class="fas fa-redo"></i> Retake
+                  </button>
+                </div>
+              </div>
+
+              <div class="status-selection">
+                <h3>Attendance Status</h3>
+                <div class="status-buttons">
+                  <button
+                    type="button"
+                    class="status-btn"
+                    data-status="Present"
+                  >
+                    <i class="fas fa-check-circle"></i>
+                    <span>Present</span>
+                  </button>
+                  <button type="button" class="status-btn" data-status="Late">
+                    <i class="fas fa-clock"></i>
+                    <span>Late</span>
+                  </button>
+                  <button type="button" class="status-btn" data-status="Absent">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Absent</span>
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-primary btn-large"
+                id="markAttendanceBtn"
+                disabled
+              >
+                <i class="fas fa-save"></i>
+                Mark Attendance
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check Attendance Page -->
+        <div id="check-page" class="page">
+          <div class="page-header">
+            <h2>Attendance Records</h2>
+            <p>View and analyze student attendance data</p>
+          </div>
+
+          <div class="records-container">
+            <div class="records-filters">
+              <div class="filter-group">
+                <div class="search-box">
+                  <input
+                    type="text"
+                    placeholder="Search students..."
+                    id="searchInput"
+                  />
+                  <i class="fas fa-search"></i>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <select id="classFilter">
+                  <option value="">All Classes</option>
+                  <option value="CS101">CS101</option>
+                  <option value="CS102">CS102</option>
+                  <option value="CS103">CS103</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <select id="statusFilter">
+                  <option value="">All Status</option>
+                  <option value="Present">Present</option>
+                  <option value="Late">Late</option>
+                  <option value="Absent">Absent</option>
+                </select>
+              </div>
+
+              <button class="btn btn-outline" id="exportBtn">
+                <i class="fas fa-download"></i> Export
+              </button>
+            </div>
+
+            <div class="records-stats">
+              <div class="stat-card">
+                <div class="stat-icon present">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-number" id="presentCount">3</div>
+                  <div class="stat-label">Present Today</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon late">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-number" id="lateCount">2</div>
+                  <div class="stat-label">Late Today</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon absent">
+                  <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-number" id="absentCount">0</div>
+                  <div class="stat-label">Absent Today</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="records-table">
+              <table id="attendanceTable">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="attendanceTableBody">
+                  <!-- Data will be populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Camera Modal -->
+      <div id="cameraModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Capture Photo</h3>
+            <button class="modal-close" id="closeCameraModal">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <video id="modalCamera" autoplay></video>
+            <canvas id="modalCanvas" style="display: none"></canvas>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="modalCaptureBtn">
+              <i class="fas fa-camera"></i> Capture
+            </button>
+            <button class="btn btn-outline" id="modalCancelBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notifications -->
+      <div id="toastContainer" class="toast-container"></div>
+
+      <!-- Loading Overlay -->
+      <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
